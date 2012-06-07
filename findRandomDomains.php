@@ -28,7 +28,6 @@
 //             PHPExperts.pro (www.phpexperts.pro).", wherever you list contributors.
 //   * See LICENSE.cc_by for complete details.
 
-
 include 'thrive/Autoloader.php';
 
 class MemcacheMock
@@ -159,7 +158,11 @@ for ($a = 0; $a < $size && $processed < 30 && time() - $startTime < 60; $a += $n
 	// - Randomize the domain list:
 	shuffle($domainList);
 
-	$domainsToSearch = array_splice($domainList, 0, $numToSearch);
+	$discardDomains = preg_grep('/[0-9-]/', $domains);
+	$domains = array_diff($domains, $discardDomains);
+	$domainsToSearch = array_splice($domains, 0, $numToSearch);
+	$domains = array_merge($domains, $discardDomains);
+
 	// - Still search alphabetically.
 	sort($domainsToSearch);
 
