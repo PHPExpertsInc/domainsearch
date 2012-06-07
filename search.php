@@ -1,3 +1,4 @@
+#!/bin/env php
 <?php
 // This file is a part of the Domain Search App, a PHPExperts.pro Project.
 //
@@ -71,21 +72,22 @@ function injectMemcache($mode = '')
 }
 
 // TEST API
+/*
 $accessCreds = new Model_APIAccessCredentials;
 $accessCreds->username = 'hopeseekr';
 $accessCreds->apiKey = '33d1f7295601432794736256a342f416';
 $accessCreds->ipAddress = '68.233.253.127';
 $client = new DomainSearcher(new NameCheapAPI_Sandbox_DomainAvailablility($accessCreds, new Thrive_URL_Downloader, new MemcacheMock));
 $memcache = injectMemcache('test');
+*/
 
-/*
 // Prod API
 $accessCreds = new Model_APIAccessCredentials;
 $accessCreds->username = 'hopeseekr';
 $accessCreds->apiKey = 'c2eccaf232ee4f289f118cd043e07be4';
 $accessCreds->ipAddress = '68.233.253.127';
 $client = new DomainSearcher(new NameCheapAPI_DomainAvailablility($accessCreds));
-*/
+
 
 //header('Content-Type: text/plain');
 
@@ -97,12 +99,8 @@ $processed = 0;
 
 // Do 30 max per minute.
 $numToSearch = 10;
-for ($a = 0; $a < $size && $processed < 30 && time() - $startTime < 60; ++$a)
+for ($a = 0; $a < $size && $processed < 30 && time() - $startTime < 60; $a += $numToSearch)
 {
-	// Search in bulk of 10 random domains at once.
-	// - Randomize the domain list:
-	shuffle($domainList);
-
 	$domainsToSearch = array_splice($domainList, 0, $numToSearch);
 	// - Still search alphabetically.
 	sort($domainsToSearch);

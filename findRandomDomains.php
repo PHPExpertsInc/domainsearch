@@ -1,3 +1,4 @@
+#!/bin/env php
 <?php
 // This file is a part of the Domain Search App, a PHPExperts.pro Project.
 //
@@ -152,7 +153,7 @@ $processed = 0;
 
 // Do 30 max per minute.
 $numToSearch = 10;
-for ($a = 0; $a < $size && $processed < 30 && time() - $startTime < 60; ++$a)
+for ($a = 0; $a < $size && $processed < 30 && time() - $startTime < 60; $a += $numToSearch)
 {
 	// Search in bulk of 10 random domains at once.
 	// - Randomize the domain list:
@@ -204,9 +205,3 @@ for ($a = 0; $a < $size && $processed < 30 && time() - $startTime < 60; ++$a)
 
 	$processed += $numToSearch;
 }
-
-
-
-
-
-
